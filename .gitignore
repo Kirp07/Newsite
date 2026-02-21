@@ -1,0 +1,29 @@
+# Секреты и переменные окружения — не коммитить
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+*.secret
+
+# Локальные конфиги с путями/ключами
+config.local.*
+*.local.*
+
+# Артефакты сборки (base64 аватара)
+assets/avatar-b64.txt
+
+# ОС и IDE
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# Временные файлы
+*.log
+*.tmp
+.cache/

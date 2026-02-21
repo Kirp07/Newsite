@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Шаг 1 — Данные для портфолио</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0d0a12;
+      --card: rgba(30, 20, 45, 0.8);
+      --accent: #8b5cf6;
+      --accent-light: #a78bfa;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #0d0a12 0%, #1a1225 50%, #0f0d18 100%);
+      min-height: 100vh;
+      color: var(--text);
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent-light);
+    }
+    .step {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      margin-bottom: 1rem;
+      background: rgba(15, 10, 25, 0.8);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    textarea.long { min-height: 160px; }
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.8;
+    }
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .avatar-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      background: var(--card);
+    }
+    .avatar-placeholder {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, #6d28d9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+    }
+    input[type="file"] {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--accent) 0%, #6d28d9 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .btn:hover {
+      filter: brightness(1.1);
+    }
+    .btn-block {
+      width: 100%;
+      margin-top: 1rem;
+    }
+    .error {
+      color: #f87171;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Сайт-визитка</h1>
+    <p class="step">Шаг 1 из 2 — Заполните данные для портфолио</p>
+
+    <form id="portfolio-form">
+      <div class="card">
+        <h2>Главный блок</h2>
+        <label>ФИО или имя</label>
+        <input type="text" name="name" placeholder="Ника Волкова" required>
+        <label>Псевдоним или ник (опционально)</label>
+        <input type="text" name="nickname" placeholder="Nighty">
+        <label>Должность / специализация</label>
+        <input type="text" name="title" placeholder="UI/UX-дизайнер и фронтенд-разработчик" required>
+        <label>Краткое описание (под заголовком)</label>
+        <textarea name="description" placeholder="Делаю интерфейсы, которые приятно открывать ночью..."></textarea>
+        <label>Фото (аватар)</label>
+        <div class="avatar-row">
+          <div id="avatar-preview" class="avatar-placeholder">?</div>
+          <div>
+            <input type="file" id="avatar-file" accept="image/*">
+            <p class="hint">Инициал для заглушки, если нет фото:</p>
+            <input type="text" name="initial" placeholder="Н" maxlength="2" style="width: 3rem; margin-bottom: 0;">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>О себе</h2>
+        <label>Первый абзац</label>
+        <textarea name="about1" class="long" placeholder="Меня зовут Ника, в сети — Nighty..."></textarea>
+        <label>Второй абзац</label>
+        <textarea name="about2" class="long" placeholder="Верю в минимализм..."></textarea>
+        <label>Третий абзац</label>
+        <textarea name="about3" class="long" placeholder="Открыта к коллаборациям..."></textarea>
+      </div>
+
+      <div class="card">
+        <h2>Контакты</h2>
+        <label>Email</label>
+        <input type="email" name="email" placeholder="hello@example.com">
+        <label>Telegram (ник или ссылка)</label>
+        <input type="text" name="telegram" placeholder="@nighty_design">
+        <label>GitHub (ник или ссылка)</label>
+        <input type="text" name="github" placeholder="github.com/nighty-dev">
+      </div>
+
+      <p id="form-error" class="error" style="display:none;"></p>
+      <button type="submit" class="btn btn-block">Перейти к генератору →</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('portfolio-form');
+    const avatarFile = document.getElementById('avatar-file');
+    const avatarPreview = document.getElementById('avatar-preview');
+    const formError = document.getElementById('form-error');
+
+    let avatarDataUrl = null;
+
+    avatarFile.addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      const r = new FileReader();
+      r.onload = function () {
+        avatarDataUrl = r.result;
+        avatarPreview.innerHTML = '';
+        const img = document.createElement('img');
+        img.className = 'avatar-preview';
+        img.src = avatarDataUrl;
+        img.alt = 'Avatar';
+        avatarPreview.appendChild(img);
+      };
+      r.readAsDataURL(file);
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      formError.style.display = 'none';
+
+      const name = form.name.value.trim();
+      const title = form.title.value.trim();
+      if (!name || !title) {
+        formError.textContent = 'Заполните имя и должность.';
+        formError.style.display = 'block';
+        return;
+      }
+
+      const data = {
+        name: name,
+        nickname: form.nickname.value.trim(),
+        title: title,
+        description: form.description.value.trim(),
+        initial: (form.initial.value.trim() || name[0]).toUpperCase(),
+        about1: form.about1.value.trim(),
+        about2: form.about2.value.trim(),
+        about3: form.about3.value.trim(),
+        email: form.email.value.trim(),
+        telegram: form.telegram.value.trim(),
+        github: form.github.value.trim(),
+        avatarDataUrl: avatarDataUrl
+      };
+
+      try {
+        localStorage.setItem('portfolioData', JSON.stringify(data));
+        window.location.href = 'generator.html';
+      } catch (err) {
+        if (err.name === 'QuotaExceededError') {
+          formError.textContent = 'Слишком много данных (например, большое фото). Загрузите фото меньшего размера или не загружайте фото.';
+        } else {
+          formError.textContent = 'Ошибка сохранения: ' + err.message;
+        }
+        formError.style.display = 'block';
+      }
+    });
+
+    // Show initial in placeholder
+    form.initial.addEventListener('input', function () {
+      const initial = this.value.trim().toUpperCase() || form.name.value.trim()[0] || '?';
+      if (avatarPreview.querySelector('img')) return;
+      avatarPreview.textContent = initial || '?';
+    });
+    form.name.addEventListener('input', function () {
+      if (avatarPreview.querySelector('img')) return;
+      const initial = form.initial.value.trim().toUpperCase() || this.value.trim()[0] || '?';
+      avatarPreview.textContent = initial || '?';
+    });
+    avatarPreview.textContent = form.initial.value.trim().toUpperCase() || form.name.value.trim()[0] || '?';
+  </script>
+</body>
+</html>

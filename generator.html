@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Шаг 2 — Генератор сайта</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0d0a12;
+      --card: rgba(30, 20, 45, 0.8);
+      --accent: #8b5cf6;
+      --accent-light: #a78bfa;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #0d0a12 0%, #1a1225 50%, #0f0d18 100%);
+      min-height: 100vh;
+      color: var(--text);
+      padding: 1rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent-light);
+    }
+    .step {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(135deg, var(--accent) 0%, #6d28d9 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent-light);
+    }
+    .preview-wrap {
+      background: #1a1225;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 480px;
+    }
+    .preview-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 70vh;
+      min-height: 500px;
+      border: none;
+    }
+    .no-data {
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .no-data a { color: var(--accent-light); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Сайт-визитка</h1>
+    <p class="step">Шаг 2 из 2 — Предпросмотр и скачивание</p>
+
+    <div class="toolbar">
+      <button type="button" class="btn" id="btn-download">Скачать index.html</button>
+      <a href="form.html" class="btn btn-outline">← Изменить данные</a>
+    </div>
+
+    <div class="preview-wrap">
+      <div id="no-data" class="no-data" style="display:none;">
+        Нет сохранённых данных. <a href="form.html">Заполните форму</a>.
+      </div>
+      <iframe id="preview" title="Предпросмотр"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const PREVIEW_STYLES = `*{margin:0;padding:0;box-sizing:border-box;}:root{--bg-dark:#0d0a12;--bg-card:rgba(30,20,45,0.6);--accent:#8b5cf6;--accent-light:#a78bfa;--accent-glow:rgba(139,92,246,0.3);--text:#e2e8f0;--text-muted:#94a3b8;}html{scroll-behavior:smooth;}body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:linear-gradient(145deg,#0d0a12 0%,#1a1225 35%,#0f0d18 70%,#160e24 100%);min-height:100vh;color:var(--text);line-height:1.6;}.container{max-width:720px;margin:0 auto;padding:2rem 1.5rem;}section.hero{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding:3rem 0;}.hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.5rem;background:linear-gradient(135deg,#fff 0%,var(--accent-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}.hero .title{font-size:1.15rem;color:var(--accent);font-weight:500;margin-bottom:1rem;}.hero .description{font-size:1.05rem;color:var(--text-muted);max-width:480px;}.hero-wrap{display:flex;flex-direction:column;gap:1.5rem;}@keyframes avatar-pulse{0%,100%{box-shadow:0 0 24px var(--accent-glow);transform:scale(1);}50%{box-shadow:0 0 36px var(--accent-glow),0 0 48px rgba(139,92,246,0.15);transform:scale(1.03);}}.hero-avatar{width:140px;height:140px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);box-shadow:0 0 24px var(--accent-glow);animation:avatar-pulse 2.5s ease-in-out infinite;}.hero-avatar-wrap{width:140px;height:140px;flex-shrink:0;position:relative;}.hero-avatar-placeholder{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,var(--accent) 0%,#6d28d9 100%);display:none;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;color:rgba(255,255,255,0.9);border:3px solid var(--accent-light);animation:avatar-pulse 2.5s ease-in-out infinite;}.hero-avatar-wrap.use-placeholder .hero-avatar{display:none;}.hero-avatar-wrap.use-placeholder .hero-avatar-placeholder{display:flex;}section.about{padding:3rem 0;}section.about h2{font-size:1.5rem;font-weight:600;margin-bottom:1.5rem;color:var(--text);}section.about p{color:var(--text-muted);margin-bottom:1rem;max-width:600px;}section.contacts{padding:3rem 0 4rem;}section.contacts h2{font-size:1.5rem;font-weight:600;margin-bottom:1.5rem;color:var(--text);}.contact-list{list-style:none;}.contact-list li{margin-bottom:0.75rem;}.contact-list a{color:var(--accent-light);text-decoration:none;transition:color 0.2s;}.contact-list a:hover{color:#c4b5fd;text-decoration:underline;}.contact-list .label{color:var(--text-muted);margin-right:0.5rem;}@media (max-width:480px){.container{padding:1.25rem 1rem;}section.hero{min-height:60vh;padding:2rem 0;}section.about,section.contacts{padding:2rem 0;}}`;
+
+    function esc(s) {
+      if (s == null || s === '') return '';
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatTitle(name, nickname) {
+      if (!nickname) return esc(name);
+      return esc(name) + ' &laquo;' + esc(nickname) + '&raquo;';
+    }
+
+    function contactHref(type, value) {
+      if (!value) return '';
+      value = value.trim();
+      if (type === 'email') return 'mailto:' + value;
+      if (type === 'telegram') {
+        if (/^https?:\/\//i.test(value)) return value;
+        const u = value.replace(/^@/, '');
+        return 'https://t.me/' + u;
+      }
+      if (type === 'github') {
+        if (/^https?:\/\//i.test(value)) return value;
+        const u = value.replace(/^@/, '').replace(/^github\.com\/?/i, '');
+        return 'https://github.com/' + u;
+      }
+      return value;
+    }
+
+    function contactLabel(value) {
+      if (!value) return '';
+      return value.replace(/^https?:\/\/[^/]+\/?/i, '').trim() || value;
+    }
+
+    function buildHtml(data) {
+      const title = data.nickname ? data.nickname + ' — Портфолио' : data.name + ' — Портфолио';
+      const hasAvatar = data.avatarDataUrl && data.avatarDataUrl.length > 0;
+      const avatarClass = hasAvatar ? '' : ' use-placeholder';
+      const avatarImg = hasAvatar
+        ? '<img class="hero-avatar" src="' + esc(data.avatarDataUrl) + '" alt="' + esc(data.name) + '">'
+        : '<img class="hero-avatar" src="" alt="" onerror="this.parentElement.classList.add(\'use-placeholder\')">';
+      const contactItems = [];
+      if (data.email) contactItems.push('<li><span class="label">Email:</span><a href="' + esc(contactHref('email', data.email)) + '">' + esc(contactLabel(data.email)) + '</a></li>');
+      if (data.telegram) contactItems.push('<li><span class="label">Telegram:</span><a href="' + esc(contactHref('telegram', data.telegram)) + '" target="_blank" rel="noopener">' + esc(contactLabel(data.telegram)) + '</a></li>');
+      if (data.github) contactItems.push('<li><span class="label">GitHub:</span><a href="' + esc(contactHref('github', data.github)) + '" target="_blank" rel="noopener">' + esc(contactLabel(data.github)) + '</a></li>');
+
+      return '<!DOCTYPE html>\n<html lang="ru">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + esc(title) + '</title>\n  <style>\n' + PREVIEW_STYLES + '\n  </style>\n</head>\n<body>\n  <div class="container">\n    <section class="hero">\n      <div class="hero-wrap">\n        <div class="hero-avatar-wrap' + avatarClass + '" id="avatar-wrap">\n          ' + avatarImg + '\n          <div class="hero-avatar-placeholder" aria-hidden="true">' + esc(data.initial || data.name[0] || '?') + '</div>\n        </div>\n        <div>\n          <h1>' + formatTitle(data.name, data.nickname) + '</h1>\n          <p class="title">' + esc(data.title) + '</p>\n          <p class="description">\n            ' + esc(data.description) + '\n          </p>\n        </div>\n      </div>\n    </section>\n\n    <section class="about">\n      <h2>О себе</h2>\n      ' + (data.about1 ? '<p>' + esc(data.about1) + '</p>\n      ' : '') + (data.about2 ? '<p>' + esc(data.about2) + '</p>\n      ' : '') + (data.about3 ? '<p>' + esc(data.about3) + '</p>' : '') + '\n    </section>\n\n    <section class="contacts">\n      <h2>Контакты</h2>\n      <ul class="contact-list">\n        ' + contactItems.join('\n        ') + '\n      </ul>\n    </section>\n  </div>\n</body>\n</html>';
+    }
+
+    let currentHtml = '';
+    let data = null;
+
+    try {
+      const raw = localStorage.getItem('portfolioData');
+      if (!raw) throw new Error('no data');
+      data = JSON.parse(raw);
+    } catch (e) {
+      document.getElementById('no-data').style.display = 'block';
+      document.getElementById('preview').style.display = 'none';
+    }
+
+    if (data) {
+      currentHtml = buildHtml(data);
+      const iframe = document.getElementById('preview');
+      iframe.srcdoc = currentHtml;
+    }
+
+    document.getElementById('btn-download').addEventListener('click', function () {
+      if (!currentHtml) {
+        alert('Нет данных для скачивания. Заполните форму на шаге 1.');
+        return;
+      }
+      const blob = new Blob([currentHtml], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
