@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nighty — Портфолио</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0d0a12;
+      --bg-card: rgba(30, 20, 45, 0.6);
+      --accent: #8b5cf6;
+      --accent-light: #a78bfa;
+      --accent-glow: rgba(139, 92, 246, 0.3);
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #0d0a12 0%, #1a1225 35%, #0f0d18 70%, #160e24 100%);
+      min-height: 100vh;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Hero */
+    section.hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .title {
+      font-size: 1.15rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .hero .description {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 480px;
+    }
+
+    .hero-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    @keyframes avatar-pulse {
+      0%, 100% {
+        box-shadow: 0 0 24px var(--accent-glow);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 36px var(--accent-glow), 0 0 48px rgba(139, 92, 246, 0.15);
+        transform: scale(1.03);
+      }
+    }
+
+    .hero-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 24px var(--accent-glow);
+      animation: avatar-pulse 2.5s ease-in-out infinite;
+    }
+
+    .hero-avatar-wrap {
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .hero-avatar-placeholder {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, #6d28d9 100%);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      border: 3px solid var(--accent-light);
+      animation: avatar-pulse 2.5s ease-in-out infinite;
+    }
+
+    .hero-avatar-wrap.use-placeholder .hero-avatar { display: none; }
+    .hero-avatar-wrap.use-placeholder .hero-avatar-placeholder { display: flex; }
+
+    /* About */
+    section.about {
+      padding: 3rem 0;
+    }
+
+    section.about h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    section.about p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      max-width: 600px;
+    }
+
+    /* Contacts */
+    section.contacts {
+      padding: 3rem 0 4rem;
+    }
+
+    section.contacts h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .contact-list {
+      list-style: none;
+    }
+
+    .contact-list li {
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-list a {
+      color: var(--accent-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-list a:hover {
+      color: #c4b5fd;
+      text-decoration: underline;
+    }
+
+    .contact-list .label {
+      color: var(--text-muted);
+      margin-right: 0.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.25rem 1rem;
+      }
+
+      section.hero {
+        min-height: 60vh;
+        padding: 2rem 0;
+      }
+
+      section.about,
+      section.contacts {
+        padding: 2rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-wrap">
+        <div class="hero-avatar-wrap" id="avatar-wrap">
+          <img class="hero-avatar" src="assets/nighty-portrait.png" alt="Nighty" onerror="document.getElementById('avatar-wrap').classList.add('use-placeholder')">
+          <div class="hero-avatar-placeholder" aria-hidden="true">Н</div>
+        </div>
+        <div>
+          <h1>Ника «Nighty» Волкова</h1>
+          <p class="title">UI/UX-дизайнер и фронтенд-разработчик</p>
+          <p class="description">
+            Делаю интерфейсы, которые приятно открывать ночью. Тёмные темы, аккуратная вёрстка и идея, что у каждого продукта должен быть характер.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about">
+      <h2>О себе</h2>
+      <p>
+        Меня зовут Ника, в сети — Nighty. Лучше всего соображаю после заката: большинство проектов и пет-проектов сделаны под лампой с фиолетовым светом. Занимаюсь интерфейсами и вёрсткой: от макетов в Figma до живой страницы без лишних зависимостей.
+      </p>
+      <p>
+        Верю в минимализм и в то, что тёмная тема — не «режим для гиков», а нормальный выбор. Люблю системные дизайн-токены, доступность и быстрый контент. В свободное время рисую, собираю референсы и смотрю, как другие делают портфолио.
+      </p>
+      <p>
+        Открыта к коллаборациям, тестовым заданиям и проектам с чёткой задачей. Если у вас тёмная палитра и интересная идея — напишите.
+      </p>
+    </section>
+
+    <section class="contacts">
+      <h2>Контакты</h2>
+      <ul class="contact-list">
+        <li><span class="label">Email:</span><a href="mailto:hello@nighty.dev">hello@nighty.dev</a></li>
+        <li><span class="label">Telegram:</span><a href="https://t.me/nighty_design" target="_blank" rel="noopener">@nighty_design</a></li>
+        <li><span class="label">GitHub:</span><a href="https://github.com/nighty-dev" target="_blank" rel="noopener">github.com/nighty-dev</a></li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
