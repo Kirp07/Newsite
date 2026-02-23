@@ -178,6 +178,116 @@
       margin-right: 0.5rem;
     }
 
+    /* Chat widget */
+    .chat-widget {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 9999;
+      font-family: inherit;
+    }
+    .chat-widget-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, #6d28d9 100%);
+      border: none;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .chat-widget-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 24px var(--accent-glow);
+    }
+    .chat-panel {
+      display: none;
+      position: absolute;
+      bottom: 68px;
+      right: 0;
+      width: 320px;
+      max-width: calc(100vw - 2rem);
+      height: 400px;
+      background: var(--bg-card);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-panel.open {
+      display: flex;
+    }
+    .chat-panel-header {
+      padding: 0.75rem 1rem;
+      background: rgba(139, 92, 246, 0.2);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .chat-msg {
+      max-width: 85%;
+      padding: 0.5rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .chat-msg.user {
+      align-self: flex-end;
+      background: var(--accent);
+      color: #fff;
+    }
+    .chat-msg.bot {
+      align-self: flex-start;
+      background: rgba(30, 20, 45, 0.8);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: var(--text);
+    }
+    .chat-input-wrap {
+      padding: 0.75rem;
+      border-top: 1px solid rgba(139, 92, 246, 0.2);
+      display: flex;
+      gap: 0.5rem;
+    }
+    .chat-input-wrap input {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      border-radius: 8px;
+      background: rgba(15, 10, 25, 0.6);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    .chat-input-wrap input::placeholder {
+      color: var(--text-muted);
+    }
+    .chat-input-wrap button {
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .chat-input-wrap button:hover {
+      filter: brightness(1.1);
+    }
+
     /* Responsive */
     @media (max-width: 480px) {
       .container {
@@ -192,6 +302,15 @@
       section.about,
       section.contacts {
         padding: 2rem 0;
+      }
+
+      .chat-widget {
+        bottom: 1rem;
+        right: 1rem;
+      }
+      .chat-panel {
+        width: 300px;
+        height: 360px;
       }
     }
   </style>
@@ -236,5 +355,67 @@
       </ul>
     </section>
   </div>
+
+  <div class="chat-widget" id="chat-widget">
+    <div class="chat-panel" id="chat-panel" aria-hidden="true">
+      <div class="chat-panel-header">Чат с Nighty</div>
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chat-input" placeholder="Напишите сообщение..." autocomplete="off">
+        <button type="button" id="chat-send">Отправить</button>
+      </div>
+    </div>
+    <button type="button" class="chat-widget-btn" id="chat-toggle" aria-label="Открыть чат">💬</button>
+  </div>
+
+  <script>
+    (function() {
+      var panel = document.getElementById('chat-panel');
+      var toggle = document.getElementById('chat-toggle');
+      var messagesEl = document.getElementById('chat-messages');
+      var input = document.getElementById('chat-input');
+      var sendBtn = document.getElementById('chat-send');
+
+      function addMessage(text, isUser) {
+        var div = document.createElement('div');
+        div.className = 'chat-msg ' + (isUser ? 'user' : 'bot');
+        div.textContent = text;
+        messagesEl.appendChild(div);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      function botReply(userText) {
+        var t = userText.toLowerCase().trim();
+        var reply;
+        if (/привет|здравствуй|хай|hello|hi/i.test(t)) reply = 'Привет! Чем могу помочь?';
+        else if (/портфолио|работ|проект/i.test(t)) reply = 'Могу показать кейсы и обсудить задачи. Напишите на hello@nighty.dev или в Telegram @nighty_design.';
+        else if (/контакт|связаться|написать/i.test(t)) reply = 'Email: hello@nighty.dev, Telegram: @nighty_design, GitHub: github.com/nighty-dev';
+        else if (/пока|до свидания|bye/i.test(t)) reply = 'До связи!';
+        else reply = 'Спасибо за сообщение! Для дел по работе лучше написать на hello@nighty.dev или в Telegram @nighty_design.';
+        setTimeout(function() { addMessage(reply, false); }, 400);
+      }
+
+      function send() {
+        var text = input.value.trim();
+        if (!text) return;
+        addMessage(text, true);
+        input.value = '';
+        botReply(text);
+      }
+
+      toggle.addEventListener('click', function() {
+        var open = panel.classList.toggle('open');
+        panel.setAttribute('aria-hidden', !open);
+        if (open) input.focus();
+      });
+
+      sendBtn.addEventListener('click', send);
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') send();
+      });
+
+      addMessage('Привет! Я Nighty. Спросите о портфолио или контактах.', false);
+    })();
+  </script>
 </body>
 </html>
